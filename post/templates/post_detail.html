@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% load static %} {% load crispy_forms_tags %} 
+{%block content %}
+
+<div id="main">
+  <!-- Posts -->
+  <article class="post featured">
+    <header class="major">
+      <span class="date">{{object.created_on}}</span>
+      <h2><a href="#">{{object.caption}}</a></h2>
+      <img width="500px" src="{{object.post_image.url}}" alt="" />
+      <h5>
+        <a class="text-decoration-none btn btn-primary" href="#">👍 Like</a>
+        {{object.like_dislike.like}}_____<a class="btn btn-danger" href="#">👎 Dislike</a>
+        {{object.like_dislike.dislike}}
+      </h5>
+      <p>
+        Aenean ornare velit lacus varius enim ullamcorper proin aliquam<br />
+        facilisis ante sed etiam magna interdum congue. Lorem ipsum dolor<br />
+        amet nullam sed etiam veroeros.
+      </p>
+    </header>
+  </article>
+
+  <div class="card m-2">
+    <h6 class="fw-bold m-2">Total Comments : {{comments | length}}</h6>
+    {% for comment in comments%}
+    <div class="card-body border m-3">
+      <b>{{comment.name}}</b>
+      <small>, {{comment.created_on}}</small>
+      <p>....{{comment.body}}</p>
+      <button class="btn btn-primary text-white">Edit</button>
+      <button class="btn btn-danger text-white">Delete</button>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="m-2 card">
+    <form method="post" class="m-3">
+      <h3>Add Comment :</h3>
+      {% csrf_token %} {{comment_form | crispy}}
+      <button class="btn btn-success text-white">Comment</button>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
